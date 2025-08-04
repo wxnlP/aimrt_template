@@ -5,7 +5,7 @@
 #include "helloworld_module/helloworld_module.h"
 
 using namespace aimrt::runtime::core;
-using namespace aimrt::helloworld::helloworld_module;
+using namespace example::helloworld::helloworld_module;
 
 // 全局 AimRTCore 指针
 AimRTCore *global_core_ptr_ = nullptr;

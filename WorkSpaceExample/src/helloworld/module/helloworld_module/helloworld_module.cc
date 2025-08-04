@@ -2,7 +2,7 @@
 #include "util/log_util.h"
 #include "yaml-cpp/yaml.h"
 
-namespace aimrt::helloworld::helloworld_module {
+namespace example::helloworld::helloworld_module {
 
 bool HelloWorldModule::Initialize(aimrt::CoreRef core) {
     // Save aimrt framework handle

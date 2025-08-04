@@ -2,7 +2,7 @@
 
 #include "aimrt_module_cpp_interface/module_base.h"
 
-namespace aimrt::helloworld::helloworld_module {
+namespace example::helloworld::helloworld_module {
 
 class HelloWorldModule : public aimrt::ModuleBase {
 public:
