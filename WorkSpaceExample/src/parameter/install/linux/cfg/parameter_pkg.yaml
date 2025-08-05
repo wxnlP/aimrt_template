@@ -1,0 +1,28 @@
+aimrt:
+  configurator:
+    temp_cfg_path: ./cfg/tmp
+  module:
+    pkgs:
+    - path: ./libparameter_pkg.so
+      enable_modules: [ParameterModule]
+    modules:
+    - name: ParameterModule
+      log_lvl: INFO
+  log: # log配置
+    core_lvl: INFO # 内核日志等级
+    backends: # 日志后端
+      - type: console # 控制台日志
+        options:
+          pattern: "[%c:%f][%l][%t][%n][%G:%R @%F]%v"
+      - type: rotate_file
+  executor:
+    executors:
+      - name: param_executor
+        type: asio_thread
+        options:
+          thread_num: 2
+
+# 模块自定义配置，框架会为每个模块生成临时配置文件，开发者通过Configurator接口获取该配置文件路径
+ParameterModule:
+  key1: love
+  key2: you
