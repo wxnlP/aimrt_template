@@ -1,0 +1,29 @@
+aimrt:
+  log: # log配置
+    core_lvl: INFO # 内核日志等级
+    backends: # 日志后端
+      - type: console # 控制台日志
+        options:
+          pattern: "[%c:%f][%l][%t][%n][%G:%R @%F]%v"
+      - type: rotate_file
+  module:
+    pkgs:
+    - path: ./libexecutor_pkg.so
+      enable_modules: [ExecutorModule]
+    modules:
+    - name: ExecutorModule
+      log_lvl: INFO
+  executor:
+    executors:
+      - name: work_executor
+        type: asio_thread
+        options:
+          thread_num: 2 # asio_thread线程>1，不保证线程安全
+      - name: thread_safe_executor
+        type: asio_strand # 保证线程安全
+        options:
+          bind_asio_thread_executor_name: work_executor
+      - name: time_schedule_executor
+        type: asio_thread
+        options:
+          thread_num: 2
