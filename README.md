@@ -3,9 +3,11 @@
 > 近期更新均是针对`WorkSpaceExample`，后续会一些学习使用的程序也会放在该仓库下，有兴趣可以关注更新。
 
 ```
-2025-8-5 --------- 1.优化子项目的CMakeLists.txt，提高复用性。
----------------------新建项目可以直接复制helloworld子项目，CMakeLists.txt仅需要修改模块和pkg使用的依赖。
------------------- 2.新增executor子项目，包括执行器基础、执行器协程接口、执行器定时器。
+2025-8-4 ------ 1.为helloworld子项目新增一键启动脚本（就是绑定yaml的shell脚本），进入build目录，运行指定.sh文件即可。
+----------------- 个人还是更喜欢我的pkg_start.sh脚本，灵活一些，不需要手动切换目录。不过一键启动脚本也有其好处，建议都加上。
+2025-8-5 ------ 1.优化子项目的CMakeLists.txt，提高复用性。
+----------------- 新建项目可以直接复制helloworld子项目，CMakeLists.txt仅需要修改模块和pkg使用的依赖。
+--------------- 2.新增executor子项目，包括执行器基础、执行器协程接口、执行器定时器。
 ```
 
 ## 目录说明
@@ -172,13 +174,13 @@ cd ${PROJRCT_PATH}/build/
 ├── pkg_start.sh
 └── src
     ├── CMakeLists.txt
-    ├── executor
-    └── helloworld
+    ├── executor ------------------- // executor子项目
+    └── helloworld ----------------- // helloworld子项目
         ├── CMakeLists.txt
-        ├── app
+        ├── app	-------------------- // app模式启动文件
         ├── install
         ├── module
-        └── pkg
+        └── pkg -------------------- // pkg模式启动文件
 ```
 
 `src`为父级命名空间，固定为`aimrt`：
