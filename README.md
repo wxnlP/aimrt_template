@@ -1,4 +1,16 @@
+## 近期更新说明
+
+> 近期更新均是针对`WorkSpaceExample`，后续会一些学习使用的程序也会放在该仓库下，有兴趣可以关注更新。
+
+```
+2025-8-5 --------- 1.优化子项目的CMakeLists.txt，提高复用性。
+		 ------------新建项目可以直接复制helloworld子项目，CMakeLists.txt仅需要修改模块和pkg使用的依赖。
+		 --------- 2.新增executor子项目，包括执行器基础、执行器协程接口、执行器定时器。
+```
+
 ## 目录说明
+
+关键脚本说明：
 
 ```
 ├── HelloWorld --------- // 单个简单项目管理实践（无命名空间）
@@ -15,7 +27,7 @@
 
 **WorkSpaceExample 案例还不是最终版，比如只编译部分子项目/只不编译部分子项目还没有做，后续会持续更新。** 
 
-请根据[官方文档](https://docs.aimrt.org/tutorials/quick_start/build_from_source_ubuntu.html)完成环境依赖安装，并进行`Aimrt`源码编译构建后再使用本仓库。
+请根据[官方文档](https://docs.aimrt.org/tutorials/quick_start/build_from_source_ubuntu.html)完成环境依赖安装，并进行`Aimrt`源码编译构建后再使用该仓库。
 
 ## HelloWorld
 
