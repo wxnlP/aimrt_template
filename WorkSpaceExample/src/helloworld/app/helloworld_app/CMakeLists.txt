@@ -10,6 +10,9 @@ string(REPLACE "::" "_" CUR_SUPERIOR_NAMESPACE_UNDERLINE ${CUR_SUPERIOR_NAMESPAC
 set(CUR_TARGET_NAME ${CUR_SUPERIOR_NAMESPACE_UNDERLINE}_${CUR_DIR})
 set(CUR_TARGET_ALIAS_NAME ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR})
 
+# 获取源文件集合
+file(GLOB_RECURSE src *.cc)
+
 # 实体可执行文件
 add_executable(${CUR_TARGET_NAME})
 # 为可执行文件起别名
@@ -17,7 +20,7 @@ add_executable(${CUR_TARGET_ALIAS_NAME} ALIAS ${CUR_TARGET_NAME})
 
 
 target_sources(${CUR_TARGET_NAME} PRIVATE
-    main.cc
+    ${src}
 )
 
 target_include_directories(${CUR_TARGET_NAME} PRIVATE

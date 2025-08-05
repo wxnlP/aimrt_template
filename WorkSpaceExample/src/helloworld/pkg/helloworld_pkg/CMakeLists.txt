@@ -10,6 +10,9 @@ string(REPLACE "::" "_" CUR_SUPERIOR_NAMESPACE_UNDERLINE ${CUR_SUPERIOR_NAMESPAC
 set(CUR_TARGET_NAME ${CUR_SUPERIOR_NAMESPACE_UNDERLINE}_${CUR_DIR})
 set(CUR_TARGET_ALIAS_NAME ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR})
 
+# 获取源文件集合
+file(GLOB_RECURSE src *.cc)
+
 # 定义一个动态库目标
 add_library(${CUR_TARGET_NAME} SHARED)
 # 建立了一个带 namespace 的别名
@@ -17,7 +20,7 @@ add_library(${CUR_TARGET_ALIAS_NAME} ALIAS ${CUR_TARGET_NAME})
 
 # Set source file of target
 target_sources(${CUR_TARGET_NAME} PRIVATE 
-  pkg_main.cc
+    ${src}
 )
 
 # Set link libraries of target

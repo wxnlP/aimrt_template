@@ -10,6 +10,8 @@ string(REPLACE "::" "_" CUR_SUPERIOR_NAMESPACE_UNDERLINE ${CUR_SUPERIOR_NAMESPAC
 set(CUR_TARGET_NAME ${CUR_SUPERIOR_NAMESPACE_UNDERLINE}_${CUR_DIR})
 set(CUR_TARGET_ALIAS_NAME ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR})
 
+# 获取源文件集合
+file(GLOB_RECURSE src *.cc)
 
 # 定义一个静态库目标
 add_library(${CUR_TARGET_NAME} STATIC)
@@ -17,7 +19,7 @@ add_library(${CUR_TARGET_NAME} STATIC)
 add_library(${CUR_TARGET_ALIAS_NAME} ALIAS ${CUR_TARGET_NAME})
 
 target_sources(${CUR_TARGET_NAME} PRIVATE
-    helloworld_module.cc
+    ${src}
 )
 
 target_include_directories(${CUR_TARGET_NAME} PUBLIC
