@@ -141,7 +141,7 @@ cd ${PROJRCT_PATH}/build/
 
 > 官方并没有此称呼，这是个人随便起的😂。官方文档示例中，无论手动搭建或使用`CLI`自动搭建，结果均是一个单独的项目，类似上面的`HelloWorld`示例（差别仅`CMake`构建脚本更复杂规范）。不过，`AimRT`的源码中的`Example`是使用这种方法搭建的，这也是我这样搭建开发环境的原因之一。
 
-本案例唯一参考[AimRT源码]([AimRT/AimRT: A high-performance runtime framework for modern robotics.](https://github.com/AimRT/AimRT))。
+本案例唯一参考[AimRT源码](https://github.com/AimRT/AimRT)。
 
 ### 如何使用
 
