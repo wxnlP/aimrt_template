@@ -23,10 +23,9 @@ bool ExecutorTimeModule::Initialize(aimrt::CoreRef core) {
 bool ExecutorTimeModule::Start() {
     // 记录开始时间
     auto start_time = timer_executor_.Now();
-    // auto logger = core_.GetLogger();
 
     // 创建一个lamada式定时回调函数
-    auto timer_callback = [start_time](aimrt::executor::TimerBase& timer) {
+    auto timer_callback = [this, start_time](aimrt::executor::TimerBase& timer) {
         static uint32_t count = 0;
 
         // 读取执行器当前的时间
