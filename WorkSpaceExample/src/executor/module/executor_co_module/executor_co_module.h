@@ -37,8 +37,9 @@ private:
 private:
     aimrt::CoreRef core_;
     
-    aimrt::co::AimRTContext context_;
+    aimrt::co::AimRTContext ctx_;
     aimrt::co::AsyncScope scope_;
+    bool run_flag_ = true;
 };
 
 } // namespace example::executor::executor_co_module

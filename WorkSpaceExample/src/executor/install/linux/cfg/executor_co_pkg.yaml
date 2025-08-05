@@ -20,9 +20,9 @@ aimrt:
         options:
           thread_num: 2 # asio_thread线程>1，不保证线程安全
       - name: thread_safe_executor
-        type: asio_strand # 保证线程安全
+        type: asio_thread # 保证线程安全
         options:
-          bind_asio_thread_executor_name: work_executor
+          thread_num: 1 # asio_thread线程=1，保证线程安全
       - name: time_schedule_executor
         type: asio_thread
         options:
