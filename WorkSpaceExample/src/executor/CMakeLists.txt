@@ -7,6 +7,7 @@ set_namespace()
 # 设置子构建目录
 add_subdirectory(module/executor_module)
 add_subdirectory(module/executor_co_module)
+add_subdirectory(module/executor_time_module)
 add_subdirectory(pkg/executor_pkg)
 
 set(CUR_INSTALL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/install/linux)

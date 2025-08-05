@@ -1,0 +1,22 @@
+aimrt:
+  log: # log配置
+    core_lvl: INFO # 内核日志等级
+    backends: # 日志后端
+      - type: console # 控制台日志
+        options:
+          pattern: "[%c:%f][%l][%t][%n][%G:%R @%F]%v"
+      - type: rotate_file
+  module:
+    pkgs:
+    - path: ./libexecutor_pkg.so
+      enable_modules: [ExecutorTimeModule]
+    modules:
+    - name: ExecutorTimeModule
+      log_lvl: INFO
+  executor:
+    executors:
+      - name: timer_executor
+        type: asio_thread
+        options:
+          thread_num: 1 # asio_thread线程>1，不保证线程安全
+

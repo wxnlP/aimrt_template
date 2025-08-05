@@ -29,6 +29,7 @@ target_link_libraries(
   PRIVATE aimrt::interface::aimrt_pkg_c_interface
           ${CUR_SUPERIOR_NAMESPACE}::executor_module
           ${CUR_SUPERIOR_NAMESPACE}::executor_co_module
+          ${CUR_SUPERIOR_NAMESPACE}::executor_time_module
 )
 
 # 重命名动态库的输出名称
