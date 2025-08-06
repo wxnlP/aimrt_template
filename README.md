@@ -278,6 +278,13 @@ add_custom_target(
 
 `channel`子项目是通过`aimrt_cli`自动生成的，通过`change_workspace.sh`脚本转移到`WorkSpaceExample`工作空间，然后修改子项目的根目录下的`CMakeLists.txt`。
 
+`change_workspace.sh`使用：
+
+```shell
+# 脚本、工程、工作空间须在同一路径
+./change_workspace.sh <工程名称> <工作空间>
+```
+
 问题主要在下面俩个语法处：
 
 - 删除`install`（建议删除）
