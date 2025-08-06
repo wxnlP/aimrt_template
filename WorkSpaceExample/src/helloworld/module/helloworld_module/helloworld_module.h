@@ -22,6 +22,11 @@ public:
     void Shutdown() override;
 
 private:
+    auto GetLogger() {
+        return core_.GetLogger();
+    }
+
+private:
     aimrt::CoreRef core_;
 };
 

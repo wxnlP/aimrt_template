@@ -9,7 +9,7 @@ bool HelloWorldModule::Initialize(aimrt::CoreRef core) {
     core_ = core;
 
     // Log
-    AIMRT_HL_INFO(core_.GetLogger(), "Init.");
+    AIMRT_INFO("Init.");
 
     try {
         // Read cfg
@@ -19,27 +19,27 @@ bool HelloWorldModule::Initialize(aimrt::CoreRef core) {
             for (const auto& itr : cfg_node) {
                 std::string k = itr.first.as<std::string>();
                 std::string v = itr.second.as<std::string>();
-                AIMRT_HL_INFO(core_.GetLogger(), "cfg [{} : {}]", k, v);
+                AIMRT_INFO("cfg [{} : {}]", k, v);
             }
         }
 
     } catch (const std::exception& e) {
-        AIMRT_HL_ERROR(core_.GetLogger(), "Init failed, {}", e.what());
+        AIMRT_ERROR("Init failed, {}", e.what());
         return false;
     }
 
-    AIMRT_HL_INFO(core_.GetLogger(), "Init succeeded.");
+    AIMRT_INFO("Init succeeded.");
 
     return true;
 }
 
 bool HelloWorldModule::Start() {
-    AIMRT_HL_INFO(core_.GetLogger(), "Start succeeded.");
+    AIMRT_INFO("Start succeeded.");
     return true;
 }
 
 void HelloWorldModule::Shutdown() {
-    AIMRT_HL_INFO(core_.GetLogger(), "Shutdown succeeded.");
+    AIMRT_INFO("Shutdown succeeded.");
 }
 
 }
