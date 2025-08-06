@@ -26,6 +26,7 @@ endif()
 
 # 包含并执行 xx.cmake 文件
 include(cmake/GetAimRT.cmake)
+include(cmake/NamespaceTool.cmake)
 
 # 添加子构建目录
 add_subdirectory(src)
