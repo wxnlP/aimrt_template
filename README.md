@@ -10,6 +10,8 @@
 --------------- 2.新增executor子项目，包括执行器基础、执行器协程接口、执行器定时器。
 --------------- 3.新增parameter子项目，包括参数的基本使用。
 2025-8-6 ------ 1.统一所有子项目的日志规范。
+--------------- 2.新增aimrt_cli新建子项目channel，内容待补充。
+--------------- 3.新增工作空间转移脚本，只需手动修改一个CMakeList即可完成编译。
 ```
 
 ## 目录说明
@@ -269,3 +271,48 @@ add_custom_target(
 
 - 取消`setup.sh`
 - 修改启动脚本的`yaml`文件路径
+
+## aimrt_cli新建子项目
+
+> `aimrt_cli`新建的工程可以直接编译，这里介绍的是将工程加入到`WorkSpaceExample`工作空间作为一个子项目的方法。
+
+`channel`子项目是通过`aimrt_cli`自动生成的，通过`change_workspace.sh`脚本转移到`WorkSpaceExample`工作空间，然后修改子项目的根目录下的`CMakeLists.txt`。
+
+问题主要在下面俩个语法处：
+
+- 删除`install`（建议删除）
+- 修改`add_custom_target`依赖的工作空间和输出路径，在此之前需要定义几个固定变量
+
+![](https://tonmoon.obs.cn-east-3.myhuaweicloud.com/img/tonmoon/20250806155617761.png)
+
+修改内容：
+
+- 新增语法，放在`add_custom_target`前。
+
+```cmake
+string(REGEX REPLACE ".*/\(.*\)" "\\1" CUR_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+# 获取当前目录的父级命名空间（不含当前）
+get_namespace(CUR_SUPERIOR_NAMESPACE)
+# 将命名空间的 "::" 换成 "_"
+string(REPLACE "::" "_" CUR_SUPERIOR_NAMESPACE_UNDERLINE ${CUR_SUPERIOR_NAMESPACE})
+```
+
+- 修改语法，使用变量替换。
+
+```cmake
+# build all
+add_custom_target(  
+  ${CUR_SUPERIOR_NAMESPACE_UNDERLINE}_${CUR_DIR}_build_all ALL
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CUR_INSTALL_SOURCE_DIR}/bin ${CMAKE_BINARY_DIR}
+  DEPENDS aimrt::runtime::main
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::pb_pkg
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::ros2_pkg
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::publisher_pkg
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::subscriber_pkg)
+```
+
+但需要注意，使用脚本转移后模块和`pkg`的工作空间与其他子项目规范并不一致。原因在于我自己搭建的工作空间的父级工作空间实际比`aimrt_cli`自动生成的工程高一级，但这并不影响编译。
+
+为保持工作空间的规范，修改`module`和`pkg`下文件的命名空间，加上父级命名空间即可。
+
+![](https://tonmoon.obs.cn-east-3.myhuaweicloud.com/img/tonmoon/20250806160102810.png)
