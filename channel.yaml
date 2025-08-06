@@ -1,0 +1,90 @@
+base_info:
+  project_name: channel
+  build_mode_tags: []
+  aimrt_import_options:
+    AIMRT_BUILD_TESTS: "OFF"
+    AIMRT_BUILD_EXAMPLES: "OFF"
+    AIMRT_BUILD_DOCUMENT: "OFF"
+    AIMRT_BUILD_RUNTIME: "ON"
+    AIMRT_BUILD_PROTOCOLS: "ON"
+    AIMRT_BUILD_CLI_TOOLS: "OFF"
+    AIMRT_BUILD_WITH_PROTOBUF: "ON"
+    AIMRT_USE_LOCAL_PROTOC_COMPILER: "OFF"
+    AIMRT_USE_PROTOC_PYTHON_PLUGIN: "OFF"
+    AIMRT_BUILD_WITH_ROS2: "ON"
+    AIMRT_BUILD_NET_PLUGIN: "OFF"
+    AIMRT_BUILD_ROS2_PLUGIN: "ON"
+    AIMRT_BUILD_MQTT_PLUGIN: "OFF"
+    AIMRT_BUILD_ZENOH_PLUGIN: "OFF"
+    AIMRT_BUILD_ICEORYX_PLUGIN: "OFF"
+    
+modules:
+  - name: pb_publisher_module
+  - name: pb_subscriber_module
+  - name: ros2_publisher_module
+  - name: ros2_subscriber_module
+pkgs:
+  - name: pb_pkg
+    modules:
+      - name: pb_publisher_module
+        namespace: local
+      - name: pb_subscriber_module
+        namespace: local
+  - name: ros2_pkg
+    modules:
+      - name: ros2_publisher_module
+        namespace: local
+      - name: ros2_subscriber_module
+        namespace: local
+  - name: publisher_pkg
+    modules:
+      - name: pb_publisher_module
+        namespace: local
+      - name: ros2_publisher_module
+        namespace: local
+  - name: subscriber_pkg
+    modules:
+      - name: pb_subscriber_module
+        namespace: local
+      - name: ros2_subscriber_module
+        namespace: local
+        
+deploy_modes:
+  - name: pb
+    deploy_ins:
+      - name: pkg
+        pkgs:
+          - name: pb_pkg
+  - name: ros2
+    deploy_ins:
+      - name: pkg
+        pkgs:
+          - name: ros2_pkg
+  - name: pub_pb
+    deploy_ins:
+      - name: pkg
+        pkgs:
+          - name: publisher_pkg
+            options:
+              disable_modules: [ros2_publisher_module]
+  - name: pub_ros2
+    deploy_ins:
+      - name: pkg
+        pkgs:
+          - name: publisher_pkg
+            options:
+              disable_modules: [pb_publisher_module]
+  - name: sub_pb
+    deploy_ins:
+      - name: pkg
+        pkgs:
+          - name: subscriber_pkg
+            options:
+              disable_modules: [ros2_subscriber_module]
+  - name: sub_ros2
+    deploy_ins:
+      - name: pkg
+        pkgs:
+          - name: subscriber_pkg
+            options:
+              disable_modules: [pb_subscriber_module]
