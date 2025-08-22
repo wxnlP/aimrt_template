@@ -6,11 +6,20 @@ aimrt:
   module:
     pkgs:
       - path: ./libpublisher_pkg.so
-        disable_modules: ['pb_publisher_module']
+        disable_modules: []
     modules:
       - name: PbPublisherModule
         log_lvl: INFO
       - name: Ros2PublisherModule
         log_lvl: INFO
+  executor:
+    executors:
+      - name: pub_executor
+        type: asio_thread
+        options:
+          thread_num: 2
 
 # Module custom configuration
+Ros2PublisherModule:
+  channel_frq: 100
+  channel_name: test_topic
