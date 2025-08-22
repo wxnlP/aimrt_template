@@ -31,6 +31,10 @@ cmake -B build -G Ninja \
     -Dmcap_DOWNLOAD_URL=https://gitee.com/AimRT/mcap/repository/archive/releases/cpp/v2.0.0.zip \
     -Dlz4_DOWNLOAD_URL=https://gitee.com/mirrors/LZ4_old1/repository/archive/v1.10.0.zip \
     -Dzstd_DOWNLOAD_URL=https://gitee.com/mirrors/facebook-zstd/repository/archive/v1.5.7.zip\
+    # -DAIMRT_BUILD_WITH_ROS2=ON\
+    # -DAIMRT_BUILD_WITH_PROTOBUF=ON\
+    # -DAIMRT_BUILD_EXAMPLES=ON\
+    # -DAIMRT_BUILD_ROS2_PLUGIN=ON\
     $@
 
 cmake --build build --config Release --parallel $(nproc)
