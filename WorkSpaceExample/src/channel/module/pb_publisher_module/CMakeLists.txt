@@ -31,7 +31,9 @@ target_include_directories(
 target_link_libraries(
   ${CUR_TARGET_NAME}
   PRIVATE yaml-cpp::yaml-cpp
-  PUBLIC aimrt::interface::aimrt_module_cpp_interface)
+  PUBLIC aimrt::interface::aimrt_module_cpp_interface
+         aimrt::interface::aimrt_module_protobuf_interface
+         aimrt::protocols::common_pb_gencode)
 
 # Set test of target
 if(CHANNEL_BUILD_TESTS AND test_files)
