@@ -6,11 +6,35 @@ aimrt:
   module:
     pkgs:
       - path: ./libpublisher_pkg.so
-        disable_modules: ['ros2_publisher_module']
+        disable_modules: [Ros2PublisherModule]
     modules:
       - name: PbPublisherModule
         log_lvl: INFO
       - name: Ros2PublisherModule
         log_lvl: INFO
+  executor:
+    executors:
+      - name: pub_executor
+        type: asio_thread
+        options:
+          thread_num: 2
+  channel:
+    backends:
+      - type: local # 官方支持local后端
+        options:
+          subscriber_use_inline_executor: false
+          subscriber_executor: pub_executor
+    pub_topics_options:
+      - topic_name: "(.*)" # 正则表达式
+        enable_backends: [local]
+        enable_filters: []
+    sub_topics_options:
+      - topic_name: "(.*)" # 正则表达式
+        enable_backends: [local]
+        enable_filters: []
 
 # Module custom configuration
+PbPublisherModule:
+  channel_frq: 10
+  channel_name: pb_topic
+
