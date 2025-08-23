@@ -27,12 +27,21 @@ target_include_directories(
   ${CUR_TARGET_NAME}
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>)
 
+# find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+
 # Set link libraries of target
 target_link_libraries(
   ${CUR_TARGET_NAME}
   PRIVATE yaml-cpp::yaml-cpp
   PUBLIC aimrt::interface::aimrt_module_cpp_interface
-         aimrt::interface::aimrt_module_ros2_interface)
+         aimrt::interface::aimrt_module_ros2_interface
+        #  rclcpp::rclcpp
+         std_msgs::std_msgs__rosidl_generator_cpp
+         std_msgs::std_msgs__rosidl_typesupport_cpp
+         std_msgs::std_msgs__rosidl_typesupport_fastrtps_cpp
+         std_msgs::std_msgs__rosidl_typesupport_introspection_cpp
+         )
 
 # Set test of target
 if(CHANNEL_BUILD_TESTS AND test_files)
