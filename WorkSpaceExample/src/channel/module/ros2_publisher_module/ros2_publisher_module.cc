@@ -1,6 +1,6 @@
 #include "ros2_publisher_module/ros2_publisher_module.h"
 #include "aimrt_module_ros2_interface/channel/ros2_channel.h"
-#include "example_ros2/msg/ros_test_msg.hpp"
+#include "std_msgs/msg/string.hpp"
 
 #include "yaml-cpp/yaml.h"
 
@@ -23,16 +23,17 @@ bool Ros2PublisherModule::Initialize(aimrt::CoreRef core)
         }
 
         // 获取一个执行器句柄
-        pub_executor_ = core_.GetExecutorManager().GetExecutor("pub_executor")
+        pub_executor_ = core_.GetExecutorManager().GetExecutor("pub_executor");
         AIMRT_CHECK_ERROR_THROW(pub_executor_ && pub_executor_.SupportTimerSchedule(),
                                 "can not get a time enable executor.");
 
         // 获取一个发布者句柄
         publisher_ = core_.GetChannelHandle().GetPublisher(channel_name_);
-        AIMRT_CHECK_ERROR_THROW(publisher_, "Get publisher for topic '{}' failed.", channel_name_);
+        AIMRT_CHECK_ERROR_THROW(publisher_, "Get publisher for topic '{}' failed.",
+                                channel_name_);
 
         // 注册发布者的消息类型（必须在Initialize环节完成）
-        bool ret = aimrt::channel::RegisterPublishType<example_ros2::msg::RosTestMsg>(publisher_);
+        bool ret = aimrt::channel::RegisterPublishType<std_msgs::msg::String>(publisher_);
         AIMRT_CHECK_ERROR_THROW(ret, "Register publishType failed.");
 
     } catch (const std::exception &e) {
@@ -83,17 +84,16 @@ void Ros2PublisherModule::MainLoop()
             count++;
             AIMRT_INFO("Loop {} -----------------", count);
 
-            example_ros2::msg::RosTestMsg msg;
-            msg.num = count;
-            msg.data = { count*1, count*2, count*3 };
+            std_msgs::msg::String msg;
+            msg.data = "count: " + std::to_string(count);
 
             aimrt::channel::Publish(publisher_, msg);
-            AIMRT_INFO("Publish new ros msg : {} {}", msg.num, msg.data);
+            AIMRT_INFO("Publish new ros msg : {}", std_msgs::msg::to_yaml(msg));
 
             // 按指定频率发送channel
-            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<uint32_t>(1000/channel_frq_));
+            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<uint32_t>(1000/channel_frq_)));
         } 
-        AIMRT_INFO("Exit MainLoop seccess.")
+        AIMRT_INFO("Exit MainLoop seccess.");
 
     } catch (std::exception& e) {
         AIMRT_ERROR("Exit MainLoop failed, {}", e.what());
