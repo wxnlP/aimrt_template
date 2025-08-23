@@ -34,6 +34,7 @@ cmake -B build -G Ninja \
     -DAIMRT_BUILD_WITH_ROS2=ON\
     -DAIMRT_BUILD_WITH_PROTOBUF=ON\
     -DAIMRT_BUILD_ROS2_PLUGIN=ON\
+    -DAIMRT_BUILD_PROTOCOLS=ON\
     $@
 
 cmake --build build --config Release --parallel $(nproc)
