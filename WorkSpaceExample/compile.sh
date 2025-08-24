@@ -2,4 +2,4 @@
 
 set -e
 
-cmake --build build --config Release --parallel $(nproc)
+cmake --build build --config Release --target install --parallel $(nproc)
