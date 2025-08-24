@@ -12,6 +12,14 @@ aimrt:
         log_lvl: INFO
       - name: Ros2PublisherModule
         log_lvl: INFO
+  plugin:
+    plugins:
+      - name: ros2_plugin
+        path: ./libaimrt_ros2_plugin.so
+        options:
+          node_name: aimrt_pb_node
+          executor_type: MultiThreaded
+          executor_thread_num: 2
   executor:
     executors:
       - name: pub_executor
@@ -24,13 +32,26 @@ aimrt:
         options:
           subscriber_use_inline_executor: false
           subscriber_executor: pub_executor
+      - type: ros2 # 官方ros2插件支持ros2后端
+        options:
+          pub_topics_options:
+            - topic_name: "(.*)"
+              qos:
+                history: keep_last
+                depth: 10
+                reliability: reliable
+                durability: volatile
+                deadline: -1
+                lifespan: -1
+                liveliness: automatic
+                liveliness_lease_duration: -1
     pub_topics_options:
       - topic_name: "(.*)" # 正则表达式
-        enable_backends: [local]
+        enable_backends: [ros2]
         enable_filters: []
     sub_topics_options:
       - topic_name: "(.*)" # 正则表达式
-        enable_backends: [local]
+        enable_backends: [ros2]
         enable_filters: []
 
 # Module custom configuration
