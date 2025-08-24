@@ -5,10 +5,55 @@ aimrt:
       - type: console
   module:
     pkgs:
-      - path: ./libsubscriber_pkg.so
-        disable_modules: ['chn_publisher_module']
+      - path: ./libchn_sub_pkg.so
+        disable_modules: [ChnPublisherModule]
     modules:
+      - name: ChnPublisherModule
+        log_lvl: INFO
       - name: ChnSubscriberModule
         log_lvl: INFO
+  plugin:
+    plugins:
+      - name: ros2_plugin
+        path: ./libaimrt_ros2_plugin.so
+        options:
+          node_name: chn_sub_node
+          executor_type: MultiThreaded
+          executor_thread_num: 2
+  executor:
+    executors:
+      - name: pub_executor
+        type: asio_thread
+        options:
+          thread_num: 4
+  channel:
+    backends:
+      - type: local # 官方支持local后端
+        options:
+          subscriber_use_inline_executor: false
+          subscriber_executor: pub_executor
+      - type: ros2 # 官方ros2插件支持ros2后端
+        options:
+          pub_topics_options:
+            - topic_name: "(.*)"
+              qos:
+                history: keep_last
+                depth: 10
+                reliability: reliable
+                durability: volatile
+                deadline: -1
+                lifespan: -1
+                liveliness: automatic
+                liveliness_lease_duration: -1
+    pub_topics_options:
+      - topic_name: "(.*)" # 正则表达式
+        enable_backends: [ros2]
+        enable_filters: []
+    sub_topics_options:
+      - topic_name: "(.*)" # 正则表达式
+        enable_backends: [ros2]
+        enable_filters: []
 
 # Module custom configuration
+ChnSubscriberModule:
+  channel_name: proto_info
