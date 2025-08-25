@@ -304,7 +304,7 @@ cmake -B build -DAIMRT_BUILD_WITH_PROTOBUF=ON -DAIMRT_BUILD_PROTOCOLS=ON
 
 ### ROS2后端说明
 
-使用`protobuf`协议部署`ros2`后端时可能会梦见如下错误：
+使用`protobuf`协议部署`ros2`后端时可能会遇见如下错误：
 
 ![](https://tonmoon.obs.cn-east-3.myhuaweicloud.com/img/tonmoon/20250824134053972.png)
 
@@ -324,27 +324,35 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/build
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/lzh/AimRtWorks/WorkSpaceExample/build
 ```
 
-其实两种办法都不够优雅，但苦于目前 **未找到更好的方法** 。
+其实两种办法都不够优雅，~~但苦于目前 **未找到更好的方法**~~ 。
+
+**上面这个方法只能治一部分症状😅** ，因为后面发现话题能发布了，但是`ros2 topic echo`用不了。
+
+后来看了一篇文章[AimRT从入门到精通（七） ：AimRT中的Channel-自定义消息类型及后端 - 知乎](https://zhuanlan.zhihu.com/p/2558246320)，其实问题是未将`ros`包添加到环境变量（还是`ros`学的不扎实😒）。
+
+`AimRT`官方为非`ros2`协议使用`ros2`后端提供了一个插件，即前面提到的`ros2_plugin_proto`，本质上是一个`ros2`接口包。我们`protobuf`使用`ros2`后端时，会调用这个`ros2`包对数据做转换，因此我们需要手动更新环境变量。
+
+而这个脚本在`build/install/share/ros2_plugin_proto/local_setup.bash`，可以发现官方提供的`protobuf`和`ros2`包都在这里，每个`ros2`包都有一个`local_setup.bash`。
+
+**做个总结**
+
+1. 添加动态库搜索目录：这个方法虽然只能“治疗”一部分症状，但是它可以保证我们在不额外处理的情况下验证程序逻辑。
+2. 将`ros`包添加到环境变量：这个属于可以解决找不到动态库、`ros2 topic echo`用不了的问题，但是每次都需要`source`环境变量也比较麻烦，目前也未找到一个方便的解决办法（因为官方没有提供一键更新环境变量的脚本，而`ros`是只需要`source`一个脚本，相对方便很多）。
+
+**除了非`ros2`协议使用`ros2`后端会出现这个问题，在使用自定义`ros2`包的时候也会有这个问题，解决办法也是一样。**
+
+---
 
 关于`ros2`后端配合`ros2`协议或非`ros2`协议，官方文档有进行一些说明，大概意思就是打通`AimRT`与`ROS2`的兼容，原文如下：
 
 ![](https://tonmoon.obs.cn-east-3.myhuaweicloud.com/img/tonmoon/20250824152425931.png)
 
-虽然这样看似不错，但是`protobuf`协议强行使用`ros2`后端又很多不便：
+---
 
-1. 无法完全正常使用`ros2`命令行，比如`ros2 echo`无法使用。
+虽然这样看似不错，但是`protobuf`协议强行使用`ros2`后端有很多不便：
+
+1. ~~无法完全正常使用`ros2`命令行，比如`ros2 topic echo`无法使用。~~（解决方法见上面）
 2. 需要注意环境变量配置。
 
 就目前的使用体验，`ros2`协议配合`ros2`后端做`ros2`生态兼容，`protobuf`协议配合`local`后端做进程内高效通信。其他后端目前还未尝试，或许`ros2`后端、`protobuf`协议有它们独特的使用场景是我未发现的，所以这些 **仅代表个人现阶段的观点** 。
 
-## Protocol
-
-这里介绍自定义`protocol`并在`AimRT`中使用。
-
-### ROS2 Message
-
-
-
-
-
-### Protobuf
