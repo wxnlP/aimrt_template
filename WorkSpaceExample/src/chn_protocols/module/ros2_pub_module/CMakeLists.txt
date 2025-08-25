@@ -31,7 +31,12 @@ target_include_directories(
 target_link_libraries(
   ${CUR_TARGET_NAME}
   PRIVATE yaml-cpp::yaml-cpp
-  PUBLIC aimrt::interface::aimrt_module_cpp_interface)
+  PUBLIC aimrt::interface::aimrt_module_cpp_interface
+         aimrt::interface::aimrt_module_ros2_interface
+         test_msgs::test_msgs__rosidl_generator_cpp
+         test_msgs::test_msgs__rosidl_typesupport_cpp
+         test_msgs::test_msgs__rosidl_typesupport_fastrtps_cpp
+         test_msgs::test_msgs__rosidl_typesupport_introspection_cpp)
 
 # Set test of target
 if(CHN_PROTOCOLS_BUILD_TESTS AND test_files)

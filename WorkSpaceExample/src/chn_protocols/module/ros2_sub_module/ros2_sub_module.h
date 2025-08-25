@@ -1,6 +1,7 @@
 #pragma once
 
 #include "aimrt_module_cpp_interface/module_base.h"
+#include "test_msgs/msg/info.hpp"
 
 namespace example::chn_protocols::ros2_sub_module {
 
@@ -21,9 +22,13 @@ class Ros2SubModule : public aimrt::ModuleBase {
 
  private:
   auto GetLogger() { return core_.GetLogger(); }
+  void SubscriberCallback(const std::shared_ptr<const test_msgs::msg::Info>& msg);
 
  private:
   aimrt::CoreRef core_;
+  aimrt::channel::SubscriberRef subscriber_;
+
+  std::string topic_name_;
 };
 
 }  // namespace example::chn_protocols::ros2_sub_module
