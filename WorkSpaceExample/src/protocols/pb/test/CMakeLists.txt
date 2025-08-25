@@ -17,17 +17,17 @@ add_protobuf_gencode_target_for_proto_path(
 )
 add_library(${CUR_TARGET_ALIAS_NAME}_pb_gencode ALIAS ${CUR_TARGET_NAME}_pb_gencode)
 
-# # Set installation
-# install(
-#   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-#   DESTINATION "share"
-#   FILES_MATCHING
-#   PATTERN "*.proto")
+# Set installation
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  DESTINATION "share"
+  FILES_MATCHING
+  PATTERN "*.proto")
 
-# set_property(TARGET ${CUR_TARGET_NAME}_pb_gencode PROPERTY EXPORT_NAME ${CUR_TARGET_ALIAS_NAME}_pb_gencode)
-# install(
-#   TARGETS ${CUR_TARGET_NAME}_pb_gencode
-#   EXPORT ${INSTALL_CONFIG_NAME}
-#   ARCHIVE DESTINATION lib
-#           FILE_SET HEADERS
-#           DESTINATION include/${CUR_TARGET_NAME}_pb_gencode)
+set_property(TARGET ${CUR_TARGET_NAME}_pb_gencode PROPERTY EXPORT_NAME ${CUR_TARGET_ALIAS_NAME}_pb_gencode)
+install(
+  TARGETS ${CUR_TARGET_NAME}_pb_gencode
+  EXPORT ${INSTALL_CONFIG_NAME}
+  ARCHIVE DESTINATION lib
+          FILE_SET HEADERS
+          DESTINATION include/${CUR_TARGET_NAME}_pb_gencode)
