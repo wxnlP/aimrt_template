@@ -17,7 +17,7 @@ aimrt:
       - name: ros2_plugin
         path: ./libaimrt_ros2_plugin.so
         options:
-          node_name: chn_pub_node
+          node_name: pub_pb_col_node
           executor_type: MultiThreaded
           executor_thread_num: 2
   executor:
