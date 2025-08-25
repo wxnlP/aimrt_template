@@ -20,7 +20,7 @@
 
 ## 快速开始
 
-提供两种方法，是我的的脚步`pkg_start.sh`或使用`xxx.sh`，各有优劣。
+提供两种方法，是我的的脚本`pkg_start.sh`或使用`xxx.sh`，各有优劣。
 
 ### pkg_start
 
