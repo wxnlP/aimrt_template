@@ -5,19 +5,19 @@ aimrt:
       - type: console
   module:
     pkgs:
-      - path: ./libchn_pub_pkg.so
-        disable_modules: [ChnSubscriberModule]
+      - path: ./libsub_pkg.so
+        disable_modules: [Ros2SubModule]
     modules:
-      - name: ChnPublisherModule
+      - name: PbSubModule
         log_lvl: INFO
-      - name: ChnSubscriberModule
+      - name: Ros2SubModule
         log_lvl: INFO
   plugin:
     plugins:
       - name: ros2_plugin
         path: ./libaimrt_ros2_plugin.so
         options:
-          node_name: chn_pub_node
+          node_name: chn_sub_node
           executor_type: MultiThreaded
           executor_thread_num: 2
   executor:
@@ -55,6 +55,5 @@ aimrt:
         enable_filters: []
 
 # Module custom configuration
-ChnPublisherModule:
+PbSubModule:
   channel_name: proto_info
-  channel_frq: 1.0
