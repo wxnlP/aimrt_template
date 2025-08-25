@@ -1,0 +1,91 @@
+base_info:
+  project_name: chn_protocols
+  build_mode_tags: []
+  aimrt_import_options:
+    AIMRT_BUILD_TESTS: "OFF"
+    AIMRT_BUILD_EXAMPLES: "OFF"
+    AIMRT_BUILD_DOCUMENT: "OFF"
+    AIMRT_BUILD_RUNTIME: "ON"
+    AIMRT_BUILD_PROTOCOLS: "ON"
+    AIMRT_BUILD_CLI_TOOLS: "OFF"
+    AIMRT_BUILD_WITH_PROTOBUF: "ON"
+    AIMRT_USE_LOCAL_PROTOC_COMPILER: "OFF"
+    AIMRT_USE_PROTOC_PYTHON_PLUGIN: "OFF"
+    AIMRT_BUILD_WITH_ROS2: "ON"
+    AIMRT_BUILD_NET_PLUGIN: "OFF"
+    AIMRT_BUILD_ROS2_PLUGIN: "ON"
+    AIMRT_BUILD_MQTT_PLUGIN: "OFF"
+    AIMRT_BUILD_ZENOH_PLUGIN: "OFF"
+    AIMRT_BUILD_ICEORYX_PLUGIN: "OFF"
+    
+modules:
+  - name: pb_pub_module
+  - name: pb_sub_module
+  - name: ros2_pub_module
+  - name: ros2_sub_module
+  
+pkgs:
+  - name: pb_col_pkg
+    modules:
+      - name: pb_pub_module
+        namespace: local
+      - name: pb_sub_module
+        namespace: local
+  - name: ros2_col_pkg
+    modules:
+      - name: ros2_pub_module
+        namespace: local
+      - name: ros2_sub_module
+        namespace: local
+  - name: pub_pkg
+    modules:
+      - name: pb_pub_module
+        namespace: local
+      - name: ros2_pub_module
+        namespace: local
+  - name: sub_pkg
+    modules:
+      - name: pb_sub_module
+        namespace: local
+      - name: ros2_sub_module
+        namespace: local
+        
+deploy_modes:
+  - name: pb
+    deploy_ins:
+      - name: col
+        pkgs:
+          - name: pb_col_pkg
+  - name: ros2
+    deploy_ins:
+      - name: col
+        pkgs:
+          - name: ros2_col_pkg
+  - name: pub_pb
+    deploy_ins:
+      - name: col
+        pkgs:
+          - name: pub_pkg
+            options:
+              disable_modules: [ros2_pub_module]
+  - name: pub_ros2
+    deploy_ins:
+      - name: col
+        pkgs:
+          - name: pub_pkg
+            options:
+              disable_modules: [pb_pub_module]
+  - name: sub_pb
+    deploy_ins:
+      - name: col
+        pkgs:
+          - name: sub_pkg
+            options:
+              disable_modules: [ros2_sub_module]
+  - name: sub_ros2
+    deploy_ins:
+      - name: col
+        pkgs:
+          - name: sub_pkg
+            options:
+              disable_modules: [pb_sub_module]
