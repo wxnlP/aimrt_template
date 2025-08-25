@@ -4,13 +4,16 @@ set_namespace()
 
 
 # module
-add_subdirectory(module/chn_publisher_module)
-add_subdirectory(module/chn_subscriber_module)
+add_subdirectory(module/pb_pub_module)
+add_subdirectory(module/pb_sub_module)
+add_subdirectory(module/ros2_pub_module)
+add_subdirectory(module/ros2_sub_module)
 
 # pkg
-add_subdirectory(pkg/chn_pkg)
-add_subdirectory(pkg/chn_pub_pkg)
-add_subdirectory(pkg/chn_sub_pkg)
+add_subdirectory(pkg/pb_col_pkg)
+add_subdirectory(pkg/ros2_col_pkg)
+add_subdirectory(pkg/pub_pkg)
+add_subdirectory(pkg/sub_pkg)
 
 # install
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
@@ -32,8 +35,9 @@ add_custom_target(
   chn_protocols_build_all ALL
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CUR_INSTALL_SOURCE_DIR}/bin ${CMAKE_BINARY_DIR}
   DEPENDS aimrt::runtime::main
-          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::chn_pkg
-          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::chn_pub_pkg
-          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::chn_sub_pkg)
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::pb_col_pkg
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::ros2_col_pkg
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::pub_pkg
+          ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::sub_pkg)
 
 
