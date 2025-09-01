@@ -11,11 +11,18 @@ set(CUR_TARGET_ALIAS_NAME ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR})
 
 
 add_protobuf_gencode_target_for_proto_path(
-    TARGET_NAME     ${CUR_TARGET_NAME}_pb_gencode
-    PROTO_PATH      ${CMAKE_CURRENT_SOURCE_DIR}
-    GENCODE_PATH    ${CMAKE_CURRENT_BINARY_DIR}
+  TARGET_NAME     ${CUR_TARGET_NAME}_pb_gencode
+  PROTO_PATH      ${CMAKE_CURRENT_SOURCE_DIR}
+  GENCODE_PATH    ${CMAKE_CURRENT_BINARY_DIR}
 )
 add_library(${CUR_TARGET_ALIAS_NAME}_pb_gencode ALIAS ${CUR_TARGET_NAME}_pb_gencode)
+
+add_protobuf_aimrt_rpc_gencode_target_for_proto_files(
+  TARGET_NAME     ${CUR_TARGET_NAME}_aimrt_rpc_gencode
+  PROTO_FILES      ${CMAKE_CURRENT_SOURCE_DIR}/info_rpc.proto
+  GENCODE_PATH    ${CMAKE_CURRENT_BINARY_DIR}
+)
+add_library(${CUR_TARGET_ALIAS_NAME}_aimrt_rpc_gencode ALIAS ${CUR_TARGET_NAME}_aimrt_rpc_gencode)
 
 # Set installation
 install(
