@@ -1,0 +1,16 @@
+aimrt:
+  log:
+    core_lvl: INFO # Trace/Debug/Info/Warn/Error/Fatal/Off
+    backends:
+      - type: console
+  module:
+    pkgs:
+      - path: ./librpc_pb_pkg.so
+        disable_modules: []
+    modules:
+      - name: PbClientModule
+        log_lvl: INFO
+      - name: PbServerModule
+        log_lvl: INFO
+
+# Module custom configuration

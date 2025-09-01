@@ -1,0 +1,19 @@
+#include <cstring>
+
+#include "aimrt_pkg_c_interface/pkg_macro.h"
+#include "pb_client_module/pb_client_module.h"
+#include "ros2_client_module/ros2_client_module.h"
+
+static std::tuple<std::string_view, std::function<aimrt::ModuleBase*()>>
+    aimrt_module_register_array[]{
+        {"PbClientModule",
+         []() -> aimrt::ModuleBase* {
+           return new rpc::pb_client_module::PbClientModule();
+         }},
+        {"Ros2ClientModule",
+         []() -> aimrt::ModuleBase* {
+           return new rpc::ros2_client_module::Ros2ClientModule();
+         }},
+    };
+
+AIMRT_PKG_MAIN(aimrt_module_register_array)
