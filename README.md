@@ -17,6 +17,9 @@
 --------------- 2.添加子项目channel说明文档。
 2025-8-25 ----- 1.添加子项目chn_protocols，使用自定义protobuf、ros2协议。
 --------------- 2.解决ros2后端与非ros2协议的配合问题。
+2025-9-1 ------ 1.对工作空间转移脚本进行升级，增加了module和pkg目录的工作空间替换，并优化了使用提示。
+--------------- 2.重新整理channel.yaml文件，添加协议配置部分，可以参考该文件使用aimrt_cli生成子项目。
+---------------   并将文件改名为config_template.yaml。
 ```
 
 ## 目录说明
@@ -24,16 +27,17 @@
 关键脚本说明：
 
 ```
-├── HelloWorld --------- // 单个简单项目管理实践（无命名空间）
-│   ├── app_start.sh --- // app模式启动脚本
-│   ├── build.sh ------- // 编译构建脚本
-│   ├── pkg_start.sh --- // pkg模式启动脚本
-│   ├── setup.sh ------- // 临时环境变量配置脚本（减少启动指令的路径含量）
-├── WorkSpaceExample --- // 参考官方源码的多个项目融合实践（有命名空间）
-│   ├── app_start.sh --- // app模式启动脚本
-│   ├── build.sh ------- // 编译构建脚本
-│   ├── pkg_start.sh --- // pkg模式启动脚本
-└── README.md ---------- // 说明文档
+├── HelloWorld ------------ // 单个简单项目管理实践（无命名空间）
+│   ├── app_start.sh ------ // app模式启动脚本
+│   ├── build.sh ---------- // 编译构建脚本
+│   ├── pkg_start.sh ------ // pkg模式启动脚本
+│   ├── setup.sh ---------- // 临时环境变量配置脚本（减少启动指令的路径含量）
+├── WorkSpaceExample ------ // 参考官方源码的多个项目融合实践（有命名空间）
+│   ├── app_start.sh ------ // app模式启动脚本
+│   ├── build.sh ---------- // 编译构建脚本
+│   ├── pkg_start.sh ------ // pkg模式启动脚本
+└── change_workspace.sh --- // 工作空间转移脚本
+└── README.md ------------- // 说明文档
 ```
 
 **WorkSpaceExample 案例还不是最终版，比如只编译部分子项目/只不编译部分子项目还没有做，后续会持续更新。** 
@@ -281,13 +285,14 @@ add_custom_target(
 
 > `aimrt_cli`新建的工程可以直接编译，这里介绍的是将工程加入到`WorkSpaceExample`工作空间作为一个子项目的方法。
 
-`channel`子项目是通过`aimrt_cli`自动生成的，通过`change_workspace.sh`脚本转移到`WorkSpaceExample`工作空间，然后修改子项目的根目录下的`CMakeLists.txt`。
+`channel`子项目是通过`aimrt_cli`自动生成的，通过`change_workspace.sh`脚本转移到`WorkSpaceExample`工作空间，然后修改子项目的根目录下的`CMakeLists.txt`即可使用。
 
 `change_workspace.sh`使用：
 
 ```shell
-# 脚本、工程、工作空间须在同一路径
-./change_workspace.sh <工程名称> <工作空间>
+# 脚本、子项目、工作空间须在同一路径
+# 注意aimrt_cli的project_name参数要与子项目名称一致
+./change_workspace.sh <子项目名称> <工作空间> <命名空间>
 ```
 
 问题主要在下面俩个语法处：
@@ -323,8 +328,10 @@ add_custom_target(
           ${CUR_SUPERIOR_NAMESPACE}::${CUR_DIR}::subscriber_pkg)
 ```
 
-但需要注意，使用脚本转移后模块和`pkg`的工作空间与其他子项目规范并不一致。原因在于我自己搭建的工作空间的父级工作空间实际比`aimrt_cli`自动生成的工程高一级，但这并不影响编译。
+~~但需要注意，使用脚本转移后模块和`pkg`的工作空间与其他子项目规范并不一致。~~原因在于我自己搭建的工作空间的父级命名空间实际比`aimrt_cli`自动生成的工程高一级，~~但这并不影响编译~~。
 
-为保持工作空间的规范，修改`module`和`pkg`下文件的命名空间，加上父级命名空间即可。
+~~为保持工作空间的规范，修改`module`和`pkg`下文件的命名空间，加上父级命名空间即可。~~
 
 ![](https://tonmoon.obs.cn-east-3.myhuaweicloud.com/img/tonmoon/20250806160102810.png)
+
+**该部分已经由 2025.9.1 更新的脚本替代完成** ，以上图为例，默认生成的工程命名空间为`channel::pb_publisher_module`，脚本会根据提供的`<命名空间>`参数补全父级命名空间。
