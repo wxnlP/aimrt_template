@@ -1,6 +1,7 @@
 #pragma once
 
 #include "aimrt_module_cpp_interface/module_base.h"
+#include "pb_server_module/service.h"
 
 namespace example::rpc::pb_server_module {
 
@@ -23,7 +24,10 @@ class PbServerModule : public aimrt::ModuleBase {
   auto GetLogger() { return core_.GetLogger(); }
 
  private:
-  aimrt::CoreRef core_;
+  aimrt::CoreRef core_{};
+
+  std::shared_ptr<example::rpc::pb_server_module::RpcInfoServiceImpl> service_ptr_{};
+  std::string service_name_{};
 };
 
 }  // namespace example::rpc::pb_server_module
