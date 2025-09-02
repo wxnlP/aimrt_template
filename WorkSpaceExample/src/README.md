@@ -10,6 +10,16 @@
   - `parameter`参数接口使用，功能不够强大，配合插件使用功能会更强大一些。
   - 参数插件的使用待更新。
 - `channel`
-  - `channel`通道接口使用，包括`ros2`、`protobuf`两种协议的原生和自定义消息类型，`local`、`ros2`两种后端。
+  - `channel`通道接口使用，包括`ros2`、`protobuf`两种协议的原生消息类型，`local`、`ros2`两种后端。
   - 预计`ros2`部分会多一些，`AimRT`没有命令行工具，所以借助`ros2`后端可以使用`ros2`的工具会很方便。
   - 注意，`ros2`后端使用需要基于`Aimrt`官方提供的`ros2`插件。
+- `protocols`
+  - 自定义的消息接口，包括`msg`和`srv`，分别用于`channel`和`rpc`两种通信方式。
+  - 需要熟悉接口的定义规则，以及编译结构搭建。
+
+- `chn_protocols`
+
+  - 使用自定义`msg`消息接口，包括`ros2`、`protobuf`两种协议的自定义消息类型，`local`、`ros2`两种后端。
+
+  
+
