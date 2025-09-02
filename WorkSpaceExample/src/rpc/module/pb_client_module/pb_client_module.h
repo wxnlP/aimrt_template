@@ -38,8 +38,6 @@ class PbClientModule : public aimrt::ModuleBase {
   std::shared_ptr<example::protocols::test::InfoRpcAsyncProxy> async_proxy_{};
   // 异步Future型接口
   std::shared_ptr<example::protocols::test::InfoRpcFutureProxy> future_proxy_{};
-  // 无栈协程型接口
-  std::shared_ptr<example::protocols::test::InfoRpcCoProxy> co_proxy_{};
 
   std::string service_name_{};
   double rpc_frq_{};
