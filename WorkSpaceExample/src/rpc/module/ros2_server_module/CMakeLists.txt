@@ -31,7 +31,9 @@ target_include_directories(
 target_link_libraries(
   ${CUR_TARGET_NAME}
   PRIVATE yaml-cpp::yaml-cpp
-  PUBLIC aimrt::interface::aimrt_module_cpp_interface)
+  PUBLIC aimrt::interface::aimrt_module_cpp_interface
+         aimrt::interface::aimrt_module_ros2_interface
+         test_msgs_aimrt_rpc_gencode)
 
 # Set test of target
 if(RPC_BUILD_TESTS AND test_files)

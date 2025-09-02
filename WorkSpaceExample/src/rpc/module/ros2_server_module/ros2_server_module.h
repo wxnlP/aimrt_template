@@ -1,6 +1,7 @@
 #pragma once
 
 #include "aimrt_module_cpp_interface/module_base.h"
+#include "ros2_server_module/service.h"
 
 namespace example::rpc::ros2_server_module {
 
@@ -24,6 +25,10 @@ class Ros2ServerModule : public aimrt::ModuleBase {
 
  private:
   aimrt::CoreRef core_;
+
+  std::shared_ptr<Ros2RpcInfoServiceImpl> service_ptr_{};
+
+  std::string service_name_{};
 };
 
 }  // namespace example::rpc::ros2_server_module
