@@ -33,7 +33,7 @@ target_link_libraries(
   PRIVATE yaml-cpp::yaml-cpp
   PUBLIC aimrt::interface::aimrt_module_cpp_interface
          aimrt::interface::aimrt_module_protobuf_interface
-         test_msgs_aimrt_rpc_gencode)
+         example::protocols::test_msgs_aimrt_rpc_gencode)
 
 # Set test of target
 if(RPC_BUILD_TESTS AND test_files)
