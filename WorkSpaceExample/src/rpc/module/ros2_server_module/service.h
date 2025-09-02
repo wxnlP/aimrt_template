@@ -19,4 +19,19 @@ class Ros2RpcInfoServiceImpl : public test_msgs::srv::RpcInfoSyncService {
   auto GetLogger() { return aimrt::common::util::SimpleLogger(); }   
 };
 
+class Ros2RpcInfoAsyncServiceImpl : public test_msgs::srv::RpcInfoAsyncService {
+ public:
+  Ros2RpcInfoAsyncServiceImpl() = default;
+  ~Ros2RpcInfoAsyncServiceImpl() override = default;
+
+  void RpcInfo(
+    aimrt::rpc::ContextRef ctx_ref,
+    const test_msgs::srv::RpcInfo_Request& req,
+    test_msgs::srv::RpcInfo_Response& rsp,
+    std::function<void(aimrt::rpc::Status)>&& callback) override;
+
+ private:
+  auto GetLogger() { return aimrt::common::util::SimpleLogger(); }   
+};
+
 };  // namespace example::rpc::ros2_server_module

@@ -27,6 +27,7 @@ class Ros2ServerModule : public aimrt::ModuleBase {
   aimrt::CoreRef core_;
 
   std::shared_ptr<Ros2RpcInfoServiceImpl> service_ptr_{};
+  std::shared_ptr<Ros2RpcInfoAsyncServiceImpl> async_service_ptr_{};
 
   std::string service_name_{};
 };

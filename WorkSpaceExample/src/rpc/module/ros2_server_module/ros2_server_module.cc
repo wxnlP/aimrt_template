@@ -2,6 +2,8 @@
 
 #include "yaml-cpp/yaml.h"
 
+#define USING_ASYNC 1
+
 namespace example::rpc::ros2_server_module {
 
 bool Ros2ServerModule::Initialize(aimrt::CoreRef core) {
@@ -16,6 +18,7 @@ bool Ros2ServerModule::Initialize(aimrt::CoreRef core) {
       service_name_ = cfg_node["service_name"].as<std::string>();
     }
 
+#if USING_SYNC
     // 创建服务指针
     service_ptr_ = std::make_shared<Ros2RpcInfoServiceImpl>();
 
@@ -26,6 +29,19 @@ bool Ros2ServerModule::Initialize(aimrt::CoreRef core) {
     } else {
       ret = core_.GetRpcHandle().RegisterService(service_name_, service_ptr_.get());
     }
+#elif USING_ASYNC
+    // 创建服务指针
+    async_service_ptr_ = std::make_shared<Ros2RpcInfoAsyncServiceImpl>();
+
+    // 注册服务
+    bool ret = false;
+    if (service_name_.empty()) {
+      ret = core_.GetRpcHandle().RegisterService(async_service_ptr_.get());
+    } else {
+      ret = core_.GetRpcHandle().RegisterService(service_name_, async_service_ptr_.get());
+    }
+#endif
+
     AIMRT_CHECK_ERROR_THROW(ret, "Register service failed.");
 
   } catch (const std::exception& e) {

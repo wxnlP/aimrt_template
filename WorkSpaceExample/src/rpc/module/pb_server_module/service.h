@@ -19,4 +19,19 @@ class RpcInfoServiceImpl : public example::protocols::test::InfoRpcSyncService {
     auto GetLogger() { return aimrt::common::util::SimpleLogger(); }
 };
 
+class RpcInfoAsyncServiceImpl : public example::protocols::test::InfoRpcAsyncService {
+ public:
+  RpcInfoAsyncServiceImpl() = default;
+  ~RpcInfoAsyncServiceImpl() override = default;
+
+  void GetRpcInfo(
+      aimrt::rpc::ContextRef ctx_ref,
+      const ::example::protocols::test::RpcInfoReq& req,
+      ::example::protocols::test::RpcInfoRes& rsp,
+      std::function<void(aimrt::rpc::Status)>&& callback) override;
+ private:
+    // 独立日志组件
+    auto GetLogger() { return aimrt::common::util::SimpleLogger(); }
+};
+
 }

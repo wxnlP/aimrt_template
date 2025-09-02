@@ -2,6 +2,8 @@
 
 #include "yaml-cpp/yaml.h"
 
+#define USING_ASYNC 1
+
 namespace example::rpc::pb_server_module {
 
 bool PbServerModule::Initialize(aimrt::CoreRef core) {
@@ -18,19 +20,32 @@ bool PbServerModule::Initialize(aimrt::CoreRef core) {
       }
     }
 
+#if USING_SYNC
     service_ptr_ = std::make_shared<RpcInfoServiceImpl>();
-
     // Register service
     bool ret = false;
     if (service_name_.empty()) {
       ret = core_.GetRpcHandle().RegisterService(service_ptr_.get());
     } else {
-      ret = core_.GetRpcHandle().RegisterService(service_name_, service_ptr_.get());
+      ret = core_.GetRpcHandle().RegisterService(service_name_,
+                                                 service_ptr_.get());
     }
+#elif USING_ASYNC
+    async_service_ptr_ = std::make_shared<RpcInfoAsyncServiceImpl>();
+    // Register service
+    bool ret = false;
+    if (service_name_.empty()) {
+      ret = core_.GetRpcHandle().RegisterService(async_service_ptr_.get());
+    } else {
+      ret = core_.GetRpcHandle().RegisterService(service_name_,
+                                                 async_service_ptr_.get());
+    }
+#endif
+
     AIMRT_CHECK_ERROR_THROW(ret, "Register service failed.");
 
     AIMRT_INFO("Register service succeeded.");
-    
+
   } catch (const std::exception& e) {
     AIMRT_ERROR("Init failed, {}", e.what());
     return false;
