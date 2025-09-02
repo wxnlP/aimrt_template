@@ -12,5 +12,67 @@ aimrt:
         log_lvl: INFO
       - name: Ros2ServerModule
         log_lvl: INFO
+  plugin:
+    plugins:
+      - name: ros2_plugin
+        path: ./libaimrt_ros2_plugin.so
+        options:
+          node_name: rpc_ros2
+          executor_type: MultiThreaded
+          executor_thread_num: 2
+  executor:
+    executors:
+      - name: work_thread_pool
+        type: asio_thread
+        options:
+          thread_num: 4
+      - name: timeout_handle
+        type: time_wheel
+        options:
+          bind_executor: work_thread_pool
+  rpc:
+    backends:
+      - type: local
+        options:
+          timeout_executor: timeout_handle
+      - type: ros2
+        options:
+          clients_options:
+            - func_name: "(.*)"
+              qos:
+                history: keep_last
+                depth: 10
+                reliability: reliable
+                durability: volatile
+                deadline: -1
+                lifespan: -1
+                liveliness: automatic
+                liveliness_lease_duration: -1
+          servers_options:
+            - func_name: "(.*)"
+              qos:
+                history: keep_last
+                depth: 10
+                reliability: reliable
+                durability: volatile
+                deadline: -1
+                lifespan: -1
+                liveliness: automatic
+                liveliness_lease_duration: -1
+    clients_options:
+      - func_name: "(.*.)"
+        enable_backends: [ros2]
+        enable_filters: []
+    servers_options:
+      - func_name: "(.*.)"
+        enable_backends: [ros2]
+        enable_filters: []
+  
 
 # Module custom configuration
+Ros2ClientModule:
+  service_name: rpc_ros2/info
+  rpc_frq: 0.2
+
+Ros2ServerModule:
+  service_name: rpc_ros2/info
