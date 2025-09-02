@@ -28,18 +28,18 @@ aimrt:
         options:
           timeout_executor: timeout_handle
     clients_options:
-      - func_name: "(.*.)"
+      - func_name: "(.*)"
         enable_backends: [local]
         enable_filters: []
     servers_options:
-      - func_name: "(.*.)"
+      - func_name: "(.*)"
         enable_backends: [local]
         enable_filters: []
 
 # Module custom configuration
 PbClientModule:
-  service_name: rpc_pb/001
+  service_name: rpc_pb
   rpc_frq: 0.2
 
 PbServerModule:
-  service_name: rpc_pb/001
+  service_name: rpc_pb
