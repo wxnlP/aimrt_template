@@ -31,3 +31,11 @@ install(
   ARCHIVE DESTINATION lib
           FILE_SET HEADERS
           DESTINATION include/${CUR_TARGET_NAME}_pb_gencode)
+
+set_property(TARGET ${CUR_TARGET_NAME}_aimrt_rpc_gencode PROPERTY EXPORT_NAME ${CUR_TARGET_ALIAS_NAME}_aimrt_rpc_gencode)
+install(
+  TARGETS ${CUR_TARGET_NAME}_aimrt_rpc_gencode
+  EXPORT ${INSTALL_CONFIG_NAME}
+  ARCHIVE DESTINATION lib
+          FILE_SET HEADERS
+          DESTINATION include/${CUR_TARGET_NAME}_aimrt_rpc_gencode)
