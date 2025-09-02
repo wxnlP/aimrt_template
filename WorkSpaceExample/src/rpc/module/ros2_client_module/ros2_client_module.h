@@ -37,8 +37,6 @@ class Ros2ClientModule : public aimrt::ModuleBase {
   std::shared_ptr<test_msgs::srv::RpcInfoAsyncProxy> async_proxy_{};
   // 异步Future型接口
   std::shared_ptr<test_msgs::srv::RpcInfoFutureProxy> future_proxy_{};
-  // 无栈协程型接口
-  std::shared_ptr<test_msgs::srv::RpcInfoCoProxy> co_proxy_{};
 
   std::string service_name_{};
   double rpc_frq_{};

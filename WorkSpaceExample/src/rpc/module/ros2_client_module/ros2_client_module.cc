@@ -2,7 +2,7 @@
 
 #include "yaml-cpp/yaml.h"
 
-#define USING_SYNC 1
+#define USING_FUTURE 1
 
 namespace example::rpc::ros2_client_module {
 
@@ -50,9 +50,6 @@ bool Ros2ClientModule::Initialize(aimrt::CoreRef core) {
     #elif USING_FUTURE
     // 创建一个异步future型 proxy
     future_proxy_ = std::make_shared<test_msgs::srv::RpcInfoFutureProxy>(rpc_handle_);
-    #elif USING_CO
-    // 创建一个无栈协程型 proxy
-    co_proxy_ = std::make_shared<test_msgs::srv::RpcInfoCoProxy>(rpc_handle_);
     #endif
 
     if (!service_name_.empty()) {
@@ -61,9 +58,7 @@ bool Ros2ClientModule::Initialize(aimrt::CoreRef core) {
       #elif USING_ASYNC 
       async_proxy_->SetServiceName(service_name_);
       #elif USING_FUTURE
-      future_proxy_->->SetServiceName(service_name_);
-      #elif USING_CO
-      co_proxy_->->SetServiceName(service_name_);
+      future_proxy_->SetServiceName(service_name_);
       #endif
     }
 
@@ -111,16 +106,15 @@ void Ros2ClientModule::MainLoop() {
     while (run_flag_) {
       // 更新请求数据
       count++;
-      req.info = "count=";
+      req.info = "count" + std::to_string(count);
       req.time_stamp = std::time(0);
 
+#if USING_SYNC
       // 创建一份新的context
       auto ctx_ptr = sync_proxy_->NewContextSharedPtr();
       ctx_ptr->SetTimeout(std::chrono::seconds(3));
-
       // 调用 rpc （在.proto中定义的函数）
       auto status = sync_proxy_->RpcInfo(ctx_ptr, req, res);
-
       // 判断返回状态
       if (status.OK()) {
         AIMRT_INFO("Client get rpc ret, status: {}, rsp: {}", status.ToString(),
@@ -128,7 +122,42 @@ void Ros2ClientModule::MainLoop() {
       } else {
         AIMRT_WARN("Client get rpc error ret, status: {}", status.ToString());
       }
+#elif USING_ASYNC
+      // 创建一份新的context
+      auto ctx_ptr = async_proxy_->NewContextSharedPtr();
+      ctx_ptr->SetTimeout(std::chrono::seconds(3));
+      // 调用 rpc （在.proto中定义的函数）
+      async_proxy_->RpcInfo(
+          ctx_ptr, req, res, [this, res](aimrt::rpc::Status status) {
+            AIMRT_INFO("Async callback on!");
+            // 判断返回状态
+            if (status.OK()) {
+              AIMRT_INFO("Client get rpc ret, status: {}, rsp: {}", status.ToString(),
+                        test_msgs::srv::to_yaml(res));
+            } else {
+              AIMRT_WARN("Client get rpc error ret, status: {}", status.ToString());
+            }
+          });
+#elif USING_FUTURE
+      // 创建一份新的context
+      auto ctx_ptr = future_proxy_->NewContextSharedPtr();
+      ctx_ptr->SetTimeout(std::chrono::seconds(3));
+      // 调用 rpc （在.proto中定义的函数）
+      auto status_future = future_proxy_->RpcInfo(ctx_ptr, req, res);
+      // ... 这里可以做一些其他事情 ...
 
+      // 阻塞的获取status
+      auto status = status_future.get();
+      // 判断返回状态
+      if (status.OK()) {
+        AIMRT_INFO("Get future result!");
+        AIMRT_INFO("Client get rpc ret, status: {}, rsp: {}", status.ToString(),
+                  test_msgs::srv::to_yaml(res));
+      } else {
+        AIMRT_WARN("Client get rpc error ret, status: {}", status.ToString());
+      }
+
+#endif
       std::this_thread::sleep_for(
         std::chrono::milliseconds(static_cast<uint32_t>(1000 / rpc_frq_)));
     }
