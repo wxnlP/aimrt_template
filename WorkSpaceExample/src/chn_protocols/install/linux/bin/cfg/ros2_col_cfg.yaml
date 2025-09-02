@@ -12,7 +12,7 @@ aimrt:
         log_lvl: INFO
       - name: Ros2SubModule
         log_lvl: INFO
-    plugin:
+  plugin:
     plugins:
       - name: ros2_plugin
         path: ./libaimrt_ros2_plugin.so

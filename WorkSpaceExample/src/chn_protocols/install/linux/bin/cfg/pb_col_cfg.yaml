@@ -5,7 +5,7 @@ aimrt:
       - type: console
   module:
     pkgs:
-      - path: ./libchn_pkg.so
+      - path: ./libpb_col_pkg.so
         disable_modules: []
     modules:
       - name: ChnPublisherModule

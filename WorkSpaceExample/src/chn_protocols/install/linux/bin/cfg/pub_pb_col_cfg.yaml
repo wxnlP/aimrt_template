@@ -47,11 +47,11 @@ aimrt:
                 liveliness_lease_duration: -1
     pub_topics_options:
       - topic_name: "(.*)" # 正则表达式
-        enable_backends: [ros2]
+        enable_backends: [local]
         enable_filters: []
     sub_topics_options:
       - topic_name: "(.*)" # 正则表达式
-        enable_backends: [ros2]
+        enable_backends: [local]
         enable_filters: []
 
 # Module custom configuration
