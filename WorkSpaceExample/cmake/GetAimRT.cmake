@@ -3,7 +3,7 @@ include(FetchContent)
 FetchContent_Declare(
     aimrt
     GIT_REPOSITORY https://gitee.com/agiros/AimRT.git
-    GIT_TAG v1.0.0
+    GIT_TAG v1.1.0
 )
 
 FetchContent_GetProperties(aimrt)
