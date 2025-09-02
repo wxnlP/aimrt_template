@@ -10,8 +10,8 @@
     - `RpcInfo.srv`：自定义`ros2`消息接口类型，`rpc`使用。
 
 - 示例：
-  - [chn_protocols](https://github.com/wxnlP/aimrt_template/tree/develop/WorkSpaceExample/src/chn_protocols)
-  - [rpc](https://github.com/wxnlP/aimrt_template/tree/develop/WorkSpaceExample/src/rpc)
+  - [chn_protocols](https://github.com/wxnlP/aimrt_template/tree/main/WorkSpaceExample/src/chn_protocols)
+  - [rpc](https://github.com/wxnlP/aimrt_template/tree/main/WorkSpaceExample/src/rpc)
 
 ## Channel
 
