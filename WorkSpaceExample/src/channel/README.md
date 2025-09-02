@@ -7,7 +7,7 @@
   - `ros2_subscriber_module`：基于`ros2`协议的订阅者模块。
   - `pb_publisher_module`：基于`protobuf`协议的发布者模块。
   - `pb_subscriber module`：基于`protobuf`协议的订阅者模块。
-- `protocols`
+- `../protocols`
   - `pb`：自定义`protobuf`消息接口类型。
   - `ros2`：自定义`ros2`消息接口类型。
 
@@ -111,9 +111,10 @@ cd build
 有几点需要注意：
 
 1. `local`后端仅支持 **单进程内** 的模块通信，即不能开两个终端分别运行发布者和订阅者。
-2. `protobuf`似乎只支持`local`后端，直接使用
+2. `ros2`后端的最佳搭配是和`ros2`协议配合，使用其他搭配能用但相对没有那么“丝滑”。
+3. ~~`protobuf`似乎只支持`local`后端~~。
 
-### ROS2 Message
+### Ros2 Message
 
 `ros2`协议的消息接口在源码的`protocols/ros2`目录下：
 
