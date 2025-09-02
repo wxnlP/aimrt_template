@@ -115,7 +115,7 @@ void PbClientModule::MainLoop() {
       AIMRT_INFO("Loop count: {}", count); 
 
       // 更新请求数据
-      req.set_info("count={}"+count);
+      req.set_info("count");
       req.set_time_stamp(std::time(0));
 
       // 创建一份新的context

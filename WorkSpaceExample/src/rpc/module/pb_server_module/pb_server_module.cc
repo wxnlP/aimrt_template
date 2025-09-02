@@ -18,7 +18,7 @@ bool PbServerModule::Initialize(aimrt::CoreRef core) {
       }
     }
 
-    service_ptr_ = std::make_shared<example::rpc::pb_server_module::RpcInfoServiceImpl>();
+    service_ptr_ = std::make_shared<RpcInfoServiceImpl>();
 
     // Register service
     bool ret = false;

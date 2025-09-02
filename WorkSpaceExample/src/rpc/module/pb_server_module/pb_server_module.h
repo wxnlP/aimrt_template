@@ -26,7 +26,7 @@ class PbServerModule : public aimrt::ModuleBase {
  private:
   aimrt::CoreRef core_{};
 
-  std::shared_ptr<example::rpc::pb_server_module::RpcInfoServiceImpl> service_ptr_{};
+  std::shared_ptr<RpcInfoServiceImpl> service_ptr_{};
   std::string service_name_{};
 };
 
