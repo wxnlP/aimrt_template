@@ -21,6 +21,7 @@
 --------------- 2.重新整理channel.yaml文件，添加协议配置部分，可以参考该文件使用aimrt_cli生成子项目。
 ---------------   并将文件改名为config_template.yaml。
 2025-9-2 ------ 1.添加子项目rpc以及rpc protocols的自定义。
+2025-9-3 ------ 2.将子项目工作空间转移脚本、配置文件放在tools文件夹，以后就在tools文件夹做子项目添加。
 ```
 
 ## 目录说明
@@ -34,10 +35,11 @@
 │   ├── pkg_start.sh ------ // pkg模式启动脚本
 │   ├── setup.sh ---------- // 临时环境变量配置脚本（减少启动指令的路径含量）
 ├── WorkSpaceExample ------ // 参考官方源码的多个项目融合实践（有命名空间）
+│   ├── tools
+│		└── change_workspace.sh --- // 工作空间转移脚本
 │   ├── app_start.sh ------ // app模式启动脚本
 │   ├── build.sh ---------- // 编译构建脚本
 │   ├── pkg_start.sh ------ // pkg模式启动脚本
-└── change_workspace.sh --- // 工作空间转移脚本
 └── README.md ------------- // 说明文档
 ```
 
@@ -177,7 +179,7 @@ cd ${PROJRCT_PATH}/build/
 
 ### CMake命名空间
 
-`WorkSpaceExample`的目录如下：
+`WorkSpaceExample`的部分目录如下：
 
 ```
 ├── CMakeLists.txt
@@ -288,12 +290,13 @@ add_custom_target(
 
 `channel`子项目是通过`aimrt_cli`自动生成的，通过`change_workspace.sh`脚本转移到`WorkSpaceExample`工作空间，然后修改子项目的根目录下的`CMakeLists.txt`即可使用。
 
+示例：[aimrt_wkspace_template](https://github.com/wxnlP/aimrt_wkspace_template?tab=readme-ov-file#)
+
 `change_workspace.sh`使用：
 
 ```shell
-# 脚本、子项目、工作空间须在同一路径
 # 注意aimrt_cli的project_name参数要与子项目名称一致
-./change_workspace.sh <子项目名称> <工作空间> <命名空间>
+./change_workspace.sh <子项目名称> <工作空间路径> <命名空间>
 ```
 
 问题主要在下面俩个语法处：
