@@ -22,6 +22,7 @@
 ---------------   并将文件改名为config_template.yaml。
 2025-9-2 ------ 1.添加子项目rpc以及rpc protocols的自定义。
 2025-9-3 ------ 2.将子项目工作空间转移脚本、配置文件放在tools文件夹，以后就在tools文件夹做子项目添加。
+2025-9-5 ------ 1.进一步完善工作空间转移脚本change_workspace.sh，一键转移工作空间无需额外操作。
 ```
 
 ## 目录说明
@@ -288,7 +289,7 @@ add_custom_target(
 
 > `aimrt_cli`新建的工程可以直接编译，这里介绍的是将工程加入到`WorkSpaceExample`工作空间作为一个子项目的方法。
 
-`channel`子项目是通过`aimrt_cli`自动生成的，通过`change_workspace.sh`脚本转移到`WorkSpaceExample`工作空间，然后修改子项目的根目录下的`CMakeLists.txt`即可使用。
+`channel`子项目是通过`aimrt_cli`自动生成的，通过`change_workspace.sh`脚本一键转移到`WorkSpaceExample`工作空间~~，然后修改子项目的根目录下的`CMakeLists.txt`即可使用~~。
 
 示例：[aimrt_wkspace_template](https://github.com/wxnlP/aimrt_wkspace_template?tab=readme-ov-file#)
 
@@ -298,6 +299,12 @@ add_custom_target(
 # 注意aimrt_cli的project_name参数要与子项目名称一致
 ./change_workspace.sh <子项目名称> <工作空间路径> <命名空间>
 ```
+
+---
+
+**下面的部分在`1.1`版本已经完全由脚本替代**
+
+---
 
 问题主要在下面俩个语法处：
 
